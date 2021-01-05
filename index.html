@@ -1,1252 +1,1394 @@
 <!DOCTYPE html>
-<html>
+    <html>
 
-<head>
-    <meta charset="utf-8">
-    <title>Quiz</title>
-    <link rel="icon" href="Images/popcorn.ico">
-    <!--<script src="Images/app1_projet.js"></script>-->
-    <script>
-        function Joueur(firstName, lastName, pseudo) {
-            this.firstName = firstName;
-            this.lastName = lastName;
-            this.pseudo = pseudo;
-            this.lcdp = "";
-            this.st = "";
-            this.minion = "";
-            this.myst = "";
-        }
-
-        let joueurs = [];
-        let pseudos = [];
-
-        function Ajouter() {
-            let pnm = document.getElementById("prenom").value;
-            let nm = document.getElementById("nom").value;
-            let ps = document.getElementById("psd").value;
-
-            let joueur = new Joueur(pnm, nm, ps);
-
-            let present = false;
-            for (let i = 0; i < joueurs.length; i++) {
-                if (joueur.pseudo == joueurs[i].pseudo) {
-                    present = true;
-                    break;
-                }
+    <head>
+        <meta charset="utf-8">
+        <title>Quiz</title>
+        <link rel="icon" href="Images/popcorn.ico">
+        <!--<script src="Images/app1_projet.js"></script>-->
+        <script>
+            function Joueur(firstName, lastName, pseudo) {
+                this.firstName = firstName;
+                this.lastName = lastName;
+                this.pseudo = pseudo;
+                this.lcdp = "";
+                this.st = "";
+                this.minion = "";
+                this.myst = "";
             }
-            if (joueur.pseudo.length < 1 || pnm == '' || nm == '') {
-                alert('Veuiller entrer un nom d\'utilisateur valide');
-            }
-            else if (present) {
-                alert('Ce pseudo existe déjà. Veuillez en entrer un autre.');
-            }
-            else {
-                joueurs.push(joueur);
 
-                const tblPers = document.getElementById("tab_j");
-                const persRaw = document.createElement("TR");
-                const nameCell = document.createElement("TD");
-                const lcdpCell = document.createElement("TD");
-                const stCell = document.createElement("TD");
-                const minionCell = document.createElement("TD");
-                const mystCell = document.createElement("TD");
-                nameCell.innerText = joueur.pseudo;
-                lcdpCell.innerText = joueur.lcdp;
-                stCell.innerText = joueur.st;
-                minionCell.innerText = joueur.minion;
-                mystCell.innerText = joueur.myst;
+            let joueurs = [];
+            let pseudos = [];
 
-                const rLcdp = (joueur.pseudo).concat('_', 'lcdp');
-                const rSt = (joueur.pseudo).concat('_', 'st');
-                const rMin = (joueur.pseudo).concat('_', 'mini');
-                const rMyst = (joueur.pseudo).concat('_', 'myst');
+            function Ajouter() {
+                let pnm = document.getElementById("prenom").value;
+                let nm = document.getElementById("nom").value;
+                let ps = document.getElementById("psd").value;
 
-                lcdpCell.setAttribute("id", rLcdp);
-                stCell.setAttribute("id", rSt);
-                minionCell.setAttribute("id", rMin);
-                mystCell.setAttribute("id", rMyst);
-
-                const removeCell = document.createElement("TD");
-                const removeButton = document.createElement("BUTTON");
-
-                removeButton.innerText = "Supprimer";
-                removeButton.addEventListener("click", removePerson);
-
-                removeCell.appendChild(removeButton);
-                persRaw.appendChild(nameCell);
-                persRaw.appendChild(lcdpCell);
-                persRaw.appendChild(stCell);
-                persRaw.appendChild(minionCell);
-                persRaw.appendChild(mystCell);
-                persRaw.appendChild(removeCell);
-                tblPers.appendChild(persRaw);
-            }
-        }
-
-
-        function removePerson(mouseEvent) {
-            let ps = mouseEvent.target.parentElement.parentElement.firstChild.innerText;
-            let index;
-            for (let i = 0; i < joueurs.length; i++) {
-                if (joueurs[i].pseudo == ps) {
-                    index = i;
-                    break;
-                }
-            }
-            joueurs.splice(index, 1);
-            console.log(joueurs);
-            mouseEvent.target.parentElement.parentElement.remove();
-        }
-
-
-        function ResST() {
-            if (joueurs.length == 0) {
-                alert('Veuillez vous enregistrer dans la liste de joueurs.');
-            }
-            else {
-                let ps = prompt('Veuillez entrer votre pseudo :');
+                let joueur = new Joueur(pnm, nm, ps);
 
                 let present = false;
                 for (let i = 0; i < joueurs.length; i++) {
-                    if (ps == joueurs[i].pseudo) {
+                    if (joueur.pseudo == joueurs[i].pseudo) {
                         present = true;
                         break;
                     }
                 }
+                if (joueur.pseudo.length < 1 || pnm == '' || nm == '') {
+                    alert('Veuiller entrer un nom d\'utilisateur valide');
+                }
+                else if (present) {
+                    alert('Ce pseudo existe déjà. Veuillez en entrer un autre.');
+                }
+                else {
+                    joueurs.push(joueur);
 
-                if (present) {
-                    let Res = { E: 0, H: 0, S: 0, D: 0 };
-                    try {
-                        var questions = [document.querySelector("input[name='st_1']:checked").value,
-                        document.querySelector("input[name='st_2']:checked").value,
-                        document.querySelector("input[name='st_3']:checked").value,
-                        document.querySelector("input[name='st_4']:checked").value,
-                        document.querySelector("input[name='st_5']:checked").value,
-                        document.querySelector("input[name='st_6']:checked").value,
-                        document.querySelector("input[name='st_7']:checked").value,
-                        document.querySelector("input[name='st_8']:checked").value]
+                    const tblPers = document.getElementById("tab_j");
+                    const persRaw = document.createElement("TR");
+                    const nameCell = document.createElement("TD");
+                    const lcdpCell = document.createElement("TD");
+                    const stCell = document.createElement("TD");
+                    const minionCell = document.createElement("TD");
+                    const mystCell = document.createElement("TD");
+                    nameCell.innerText = joueur.pseudo;
+                    lcdpCell.innerText = joueur.lcdp;
+                    stCell.innerText = joueur.st;
+                    minionCell.innerText = joueur.minion;
+                    mystCell.innerText = joueur.myst;
+
+                    const rLcdp = (joueur.pseudo).concat('_', 'lcdp');
+                    const rSt = (joueur.pseudo).concat('_', 'st');
+                    const rMin = (joueur.pseudo).concat('_', 'mini');
+                    const rMyst = (joueur.pseudo).concat('_', 'myst');
+
+                    lcdpCell.setAttribute("id", rLcdp);
+                    stCell.setAttribute("id", rSt);
+                    minionCell.setAttribute("id", rMin);
+                    mystCell.setAttribute("id", rMyst);
+
+                    const removeCell = document.createElement("TD");
+                    const removeButton = document.createElement("BUTTON");
+
+                    removeButton.innerText = "Supprimer";
+                    removeButton.addEventListener("click", removePerson);
+
+                    removeCell.appendChild(removeButton);
+                    persRaw.appendChild(nameCell);
+                    persRaw.appendChild(lcdpCell);
+                    persRaw.appendChild(stCell);
+                    persRaw.appendChild(minionCell);
+                    persRaw.appendChild(mystCell);
+                    persRaw.appendChild(removeCell);
+                    tblPers.appendChild(persRaw);
+                }
+            }
+
+
+            function removePerson(mouseEvent) {
+                let ps = mouseEvent.target.parentElement.parentElement.firstChild.innerText;
+                let index;
+                for (let i = 0; i < joueurs.length; i++) {
+                    if (joueurs[i].pseudo == ps) {
+                        index = i;
+                        break;
                     }
-                    catch (err) {
-                        alert("Toutes les réponses n'ont pas été cochées.");
+                }
+                joueurs.splice(index, 1);
+                console.log(joueurs);
+                mouseEvent.target.parentElement.parentElement.remove();
+            }
+
+
+            function ResST() {
+                if (joueurs.length == 0) {
+                    alert('Veuillez vous enregistrer dans la liste de joueurs.');
+                }
+                else {
+                    let ps = prompt('Veuillez entrer votre pseudo :');
+
+                    let present = false;
+                    for (let i = 0; i < joueurs.length; i++) {
+                        if (ps == joueurs[i].pseudo) {
+                            present = true;
+                            break;
+                        }
                     }
-                    for (let i = 0; i < questions.length; i++) {
-                        if (i == 1 || i == 6) {
-                            switch (questions[i]) {
-                                case 'eleven':
-                                    Res.E++;
-                                    break;
-                                default:
-                                    Res.H++;
-                                    Res.S++;
-                                    Res.D++;
+
+                    if (present) {
+                        let Res = { E: 0, H: 0, S: 0, D: 0 };
+                        try {
+                            var questions = [document.querySelector("input[name='st_1']:checked").value,
+                            document.querySelector("input[name='st_2']:checked").value,
+                            document.querySelector("input[name='st_3']:checked").value,
+                            document.querySelector("input[name='st_4']:checked").value,
+                            document.querySelector("input[name='st_5']:checked").value,
+                            document.querySelector("input[name='st_6']:checked").value,
+                            document.querySelector("input[name='st_7']:checked").value,
+                            document.querySelector("input[name='st_8']:checked").value]
+                        }
+                        catch (err) {
+                            alert("Toutes les réponses n'ont pas été cochées.");
+                        }
+                        for (let i = 0; i < questions.length; i++) {
+                            if (i == 1 || i == 6) {
+                                switch (questions[i]) {
+                                    case 'eleven':
+                                        Res.E++;
+                                        break;
+                                    default:
+                                        Res.H++;
+                                        Res.S++;
+                                        Res.D++;
+                                }
+                            }
+                            else if (i == 5) {
+                                switch (questions[i]) {
+                                    case 'hopper':
+                                        Res.H++;
+                                        Res.S++;
+                                        break;
+                                    default:
+                                        Res.E++;
+                                        Res.D++;
+                                }
+                            }
+                            else {
+                                switch (questions[i]) {
+                                    case 'eleven':
+                                        Res.E++;
+                                        break;
+                                    case 'hopper':
+                                        Res.H++;
+                                        break;
+                                    case 'steve':
+                                        Res.S++;
+                                        break;
+                                    default:
+                                        Res.D++;
+                                }
                             }
                         }
-                        else if (i == 5) {
-                            switch (questions[i]) {
-                                case 'hopper':
-                                    Res.H++;
-                                    Res.S++;
-                                    break;
-                                default:
-                                    Res.E++;
-                                    Res.D++;
+
+                        let max = 0
+                        let pers;
+                        for (let i in Res) {
+                            if (Res[i] > max) {
+                                max = Res[i];
+                                pers = i;
                             }
+                        }
+                        let perso;
+
+                        const hparagraphe = document.createElement('h3');
+                        const paragraphe = document.createElement('p');
+                        const image = document.createElement('img');
+                        const affich = document.getElementById("pSt");
+                        paragraphe.setAttribute("class", "resultats");
+                        image.setAttribute("width", 400);
+                        image.setAttribute("class", "ResImg");
+                        affich.innerHTML = '';
+                        if (pers == 'E') {
+                            perso = "Eleven";
+                            hparagraphe.innerText = "Eleven";
+                            paragraphe.innerText = "Oulala, t'as des problèmes de colère, il faut parfois prendre les évènement avec plus de recul... Mais sinon ça va, tu es une bonne personne qui donnerait tout pour ses amis et sa famille. Ps = Abuse pas trop sur les gauffres";
+                            image.setAttribute("src", "Images/eleven.png");
+                        }
+                        else if (pers == 'H') {
+                            perso = "Jim Hopper";
+                            hparagraphe.innerText = "Jim Hopper";
+                            paragraphe.innerText = "Tu es courageux et déterminé. Ton rôle de sherif te correspond parfaitement, tu cherches toujours à protéger les autres.";
+                            image.setAttribute("src", "Images/hopper.png");
+                        }
+                        else if (pers == 'D') {
+                            perso = "Dustin Henderson";
+                            hparagraphe.innerText = 'Dustin Henderson';
+                            paragraphe.innerText = "Tu es le rigolo du groupe. Toujours de bonne humeur, tu sais redonner le sourire à tes amis. Il faut juste que tu ai un peu plus confiance en toi!";
+                            image.setAttribute("src", "Images/dustin.png");
                         }
                         else {
+                            perso = "Steve Harrington";
+                            hparagraphe.innerText = 'Steve Harrington';
+                            paragraphe.innerText = "Tu as su grandir grâce aux aventures que tu as pu vivre. T'es le gars sympa du groupe, tes amis t'apprécient beaucoup";
+                            image.setAttribute("src", "Images/steve.png");
+                        }
+                        affich.appendChild(hparagraphe);
+                        affich.appendChild(image);
+                        affich.appendChild(paragraphe);
+
+                        const ID = (ps).concat('_', 'st');
+                        const caseRes = document.getElementById(ID);
+
+                        caseRes.innerText = perso;
+
+                    }
+                    else {
+                        alert('Ce pseudo n\'est pas valide');
+                    }
+                }
+            }
+
+            function ResLCDP() {
+                if (joueurs.length == 0) {
+                    alert('Veuillez vous enregistrer dans la liste de joueurs.');
+                }
+                else {
+                    let ps = prompt('Veuillez entrer votre pseudo :');
+
+                    let present = false;
+                    for (let i = 0; i < joueurs.length; i++) {
+                        if (ps == joueurs[i].pseudo) {
+                            present = true;
+                            break;
+                        }
+                    }
+
+                    if (present) {
+                        let Res = { T: 0, P: 0, H: 0, B: 0 };
+                        try {
+                            var questions = [document.querySelector("input[name='lcdp_1']:checked").value,
+                            document.querySelector("input[name='lcdp_2']:checked").value,
+                            document.querySelector("input[name='lcdp_3']:checked").value,
+                            document.querySelector("input[name='lcdp_4']:checked").value,
+                            document.querySelector("input[name='lcdp_5']:checked").value,
+                            document.querySelector("input[name='lcdp_6']:checked").value,
+                            document.querySelector("input[name='lcdp_7']:checked").value]
+                        }
+                        catch (err) {
+                            alert("Toutes les réponses n'ont pas été cochées.");
+                        }
+                        for (let i = 0; i < questions.length; i++) {
                             switch (questions[i]) {
-                                case 'eleven':
-                                    Res.E++;
+                                case 'professeur':
+                                    Res.P++;
                                     break;
-                                case 'hopper':
+                                case 'tokyo':
+                                    Res.T++;
+                                    break;
+                                case 'helsinki':
                                     Res.H++;
                                     break;
-                                case 'steve':
+                                default:
+                                    Res.B++;
+                            }
+                        }
+
+                        let max = 0
+                        let pers;
+                        for (let i in Res) {
+                            if (Res[i] > max) {
+                                max = Res[i];
+                                pers = i;
+                            }
+                        }
+
+                        const hparagraphe = document.createElement('h3');
+                        const paragraphe = document.createElement('p');
+                        const image = document.createElement('img');
+                        const affich = document.getElementById("pLcdp");
+                        image.setAttribute("width", 400);
+                        image.setAttribute("class", "ResImg");
+                        paragraphe.setAttribute("class", "resultats");
+                        affich.innerHTML = '';
+
+                        if (pers == 'T') {
+                            perso = "Tokyo";
+                            hparagraphe.innerText = "Tokyo";
+                            paragraphe.innerText = "Tu es fort, intrépide et sûr de toi mais quand on s'en prend à une personne que tu aimes, tu ne te contrôle plus et tu fais tout pour les venger, tu es aussi très humble et gentil malgré tes allures de rebelle.";
+                            image.setAttribute("src", "Images/tokyo.png");
+                        }
+                        else if (pers == 'P') {
+                            perso = "Le professeur";
+                            hparagraphe.innerText = "Le professeur";
+                            paragraphe.innerText = "Tu réfléchis avant d'agir, prends ton temps et tu n'es pas brusque, ce que tu entreprends est sûr d'être réussi, tu serais un parfait professeur!";
+                            image.setAttribute("src", "Images/profesor.png");
+                        }
+                        else if (pers == 'H') {
+                            perso = "Helsinki";
+                            hparagraphe.innerText = "Helsinki";
+                            paragraphe.innerText = 'Pour toi un plan doit être violent mais pas que! Tu as aussi un grand coeur et tu n\'hésite pas à aider tes proches quand ils en ont besoin';
+                            image.setAttribute("src", "Images/helsinki.png");
+                        }
+                        else {
+                            perso = "Berlin";
+                            hparagraphe.innerText = "Berlin";
+                            paragraphe.innerText = "Tu aimes le pouvoir et tu n'as peur de rien, tu est souvent pessimiste comme Berlin, tu es casanier et très solidaire, personne ne peut t'empêcher de terminer ce que tu as commencé!";
+                            image.setAttribute("src", "Images/berlin.png");
+                        }
+                        affich.appendChild(hparagraphe);
+                        affich.appendChild(image);
+                        affich.appendChild(paragraphe);
+
+                        const ID = (ps).concat('_', 'lcdp');
+                        const caseRes = document.getElementById(ID);
+
+                        caseRes.innerText = perso;
+                    }
+                    else {
+                        alert('Ce pseudo n\'est pas valide');
+                    }
+                }
+            }
+
+            function ResMini() {
+                if (joueurs.length == 0) {
+                    alert("Veuillez vous enregistrer dans la liste de joueurs.");
+                }
+                else {
+                    let ps = prompt('Veuillez entrer votre pseudo :');
+
+                    let present = false;
+                    for (let i = 0; i < joueurs.length; i++) {
+                        if (ps == joueurs[i].pseudo) {
+                            present = true;
+                            break;
+                        }
+                    }
+
+                    if (present) {
+
+                        let Res = { B: 0, S: 0, K: 0 };
+                        try {
+                            var questions = [document.querySelector("input[name='min_1']:checked").value,
+                            document.querySelector("input[name='min_2']:checked").value,
+                            document.querySelector("input[name='min_3']:checked").value,
+                            document.querySelector("input[name='min_4']:checked").value,
+                            document.querySelector("input[name='min_5']:checked").value,
+                            document.querySelector("input[name='min_6']:checked").value]
+                        }
+                        catch (err) {
+                            alert("Toutes les réponses n'ont pas été cochées.");
+                        }
+                        for (let i = 0; i < questions.length; i++) {
+                            switch (questions[i]) {
+                                case 'bob':
+                                    Res.B++;
+                                    break;
+                                case 'stuart':
                                     Res.S++;
                                     break;
                                 default:
-                                    Res.D++;
+                                    Res.K++;
                             }
                         }
-                    }
 
-                    let max = 0
-                    let pers;
-                    for (let i in Res) {
-                        if (Res[i] > max) {
-                            max = Res[i];
-                            pers = i;
-                        }
-                    }
-                    let perso;
-
-                    const hparagraphe = document.createElement('h3');
-                    const paragraphe = document.createElement('p');
-                    const image = document.createElement('img');
-                    const affich = document.getElementById("pSt");
-                    paragraphe.setAttribute("class", "resultats");
-                    image.setAttribute("width", 400);
-                    image.setAttribute("class", "ResImg");
-                    affich.innerHTML = '';
-                    if (pers == 'E') {
-                        perso = "Eleven";
-                        hparagraphe.innerText = "Eleven";
-                        paragraphe.innerText = "Oulala, t'as des problèmes de colère, il faut parfois prendre les évènement avec plus de recul... Mais sinon ça va, tu es une bonne personne qui donnerait tout pour ses amis et sa famille. Ps = Abuse pas trop sur les gauffres";
-                        image.setAttribute("src", "Images/eleven.png");
-                    }
-                    else if (pers == 'H') {
-                        perso = "Jim Hopper";
-                        hparagraphe.innerText = "Jim Hopper";
-                        paragraphe.innerText = "Tu es courageux et déterminé. Ton rôle de sherif te correspond parfaitement, tu cherches toujours à protéger les autres.";
-                        image.setAttribute("src", "Images/hopper.png");
-                    }
-                    else if (pers == 'D') {
-                        perso = "Dustin Henderson";
-                        hparagraphe.innerText = 'Dustin Henderson';
-                        paragraphe.innerText = "Tu es le rigolo du groupe. Toujours de bonne humeur, tu sais redonner le sourire à tes amis. Il faut juste que tu ai un peu plus confiance en toi!";
-                        image.setAttribute("src", "Images/dustin.png");
-                    }
-                    else {
-                        perso = "Steve Harrington";
-                        hparagraphe.innerText = 'Steve Harrington';
-                        paragraphe.innerText = "Tu as su grandir grâce aux aventures que tu as pu vivre. T'es le gars sympa du groupe, tes amis t'apprécient beaucoup";
-                        image.setAttribute("src", "Images/steve.png");
-                    }
-                    affich.appendChild(hparagraphe);
-                    affich.appendChild(image);
-                    affich.appendChild(paragraphe);
-
-                    const ID = (ps).concat('_', 'st');
-                    const caseRes = document.getElementById(ID);
-
-                    caseRes.innerText = perso;
-
-                }
-                else {
-                    alert('Ce pseudo n\'est pas valide');
-                }
-            }
-        }
-
-        function ResLCDP() {
-            if (joueurs.length == 0) {
-                alert('Veuillez vous enregistrer dans la liste de joueurs.');
-            }
-            else {
-                let ps = prompt('Veuillez entrer votre pseudo :');
-
-                let present = false;
-                for (let i = 0; i < joueurs.length; i++) {
-                    if (ps == joueurs[i].pseudo) {
-                        present = true;
-                        break;
-                    }
-                }
-
-                if (present) {
-                    let Res = { T: 0, P: 0, H: 0, B: 0 };
-                    try {
-                        var questions = [document.querySelector("input[name='lcdp_1']:checked").value,
-                        document.querySelector("input[name='lcdp_2']:checked").value,
-                        document.querySelector("input[name='lcdp_3']:checked").value,
-                        document.querySelector("input[name='lcdp_4']:checked").value,
-                        document.querySelector("input[name='lcdp_5']:checked").value,
-                        document.querySelector("input[name='lcdp_6']:checked").value,
-                        document.querySelector("input[name='lcdp_7']:checked").value]
-                    }
-                    catch (err) {
-                        alert("Toutes les réponses n'ont pas été cochées.");
-                    }
-                    for (let i = 0; i < questions.length; i++) {
-                        switch (questions[i]) {
-                            case 'professeur':
-                                Res.P++;
-                                break;
-                            case 'tokyo':
-                                Res.T++;
-                                break;
-                            case 'helsinki':
-                                Res.H++;
-                                break;
-                            default:
-                                Res.B++;
-                        }
-                    }
-
-                    let max = 0
-                    let pers;
-                    for (let i in Res) {
-                        if (Res[i] > max) {
-                            max = Res[i];
-                            pers = i;
-                        }
-                    }
-
-                    const hparagraphe = document.createElement('h3');
-                    const paragraphe = document.createElement('p');
-                    const image = document.createElement('img');
-                    const affich = document.getElementById("pLcdp");
-                    image.setAttribute("width", 400);
-                    image.setAttribute("class", "ResImg");
-                    paragraphe.setAttribute("class", "resultats");
-                    affich.innerHTML = '';
-
-                    if (pers == 'T') {
-                        perso = "Tokyo";
-                        hparagraphe.innerText = "Tokyo";
-                        paragraphe.innerText = "Tu es fort, intrépide et sûr de toi mais quand on s'en prend à une personne que tu aimes, tu ne te contrôle plus et tu fais tout pour les venger, tu es aussi très humble et gentil malgré tes allures de rebelle.";
-                        image.setAttribute("src", "Images/tokyo.png");
-                    }
-                    else if (pers == 'P') {
-                        perso = "Le professeur";
-                        hparagraphe.innerText = "Le professeur";
-                        paragraphe.innerText = "Tu réfléchis avant d'agir, prends ton temps et tu n'es pas brusque, ce que tu entreprends est sûr d'être réussi, tu serais un parfait professeur!";
-                        image.setAttribute("src", "Images/profesor.png");
-                    }
-                    else if (pers == 'H') {
-                        perso = "Helsinki";
-                        hparagraphe.innerText = "Helsinki";
-                        paragraphe.innerText = 'Pour toi un plan doit être violent mais pas que! Tu as aussi un grand coeur et tu n\'hésite pas à aider tes proches quand ils en ont besoin';
-                        image.setAttribute("src", "Images/helsinki.png");
-                    }
-                    else {
-                        perso = "Berlin";
-                        hparagraphe.innerText = "Berlin";
-                        paragraphe.innerText = "Tu aimes le pouvoir et tu n'as peur de rien, tu est souvent pessimiste comme Berlin, tu es casanier et très solidaire, personne ne peut t'empêcher de terminer ce que tu as commencé!";
-                        image.setAttribute("src", "Images/berlin.png");
-                    }
-                    affich.appendChild(hparagraphe);
-                    affich.appendChild(image);
-                    affich.appendChild(paragraphe);
-
-                    const ID = (ps).concat('_', 'lcdp');
-                    const caseRes = document.getElementById(ID);
-
-                    caseRes.innerText = perso;
-                }
-                else {
-                    alert('Ce pseudo n\'est pas valide');
-                }
-            }
-        }
-
-        function ResMini() {
-            if (joueurs.length == 0) {
-                alert("Veuillez vous enregistrer dans la liste de joueurs.");
-            }
-            else {
-                let ps = prompt('Veuillez entrer votre pseudo :');
-
-                let present = false;
-                for (let i = 0; i < joueurs.length; i++) {
-                    if (ps == joueurs[i].pseudo) {
-                        present = true;
-                        break;
-                    }
-                }
-
-                if (present) {
-
-                    let Res = { B: 0, S: 0, K: 0 };
-                    try {
-                        var questions = [document.querySelector("input[name='min_1']:checked").value,
-                        document.querySelector("input[name='min_2']:checked").value,
-                        document.querySelector("input[name='min_3']:checked").value,
-                        document.querySelector("input[name='min_4']:checked").value,
-                        document.querySelector("input[name='min_5']:checked").value,
-                        document.querySelector("input[name='min_6']:checked").value]
-                    }
-                    catch (err) {
-                        alert("Toutes les réponses n'ont pas été cochées.");
-                    }
-                    for (let i = 0; i < questions.length; i++) {
-                        switch (questions[i]) {
-                            case 'bob':
-                                Res.B++;
-                                break;
-                            case 'stuart':
-                                Res.S++;
-                                break;
-                            default:
-                                Res.K++;
-                        }
-                    }
-
-                    let max = 0
-                    let pers;
-                    for (let i in Res) {
-                        if (Res[i] > max) {
-                            max = Res[i];
-                            pers = i;
-                        }
-                    }
-
-                    const hparagraphe = document.createElement('h3');
-                    const paragraphe = document.createElement('p');
-                    const image = document.createElement('img');
-                    paragraphe.setAttribute("class", "resultats");
-                    const affich = document.getElementById("pMini");
-                    image.setAttribute("width", 400);
-                    image.setAttribute("class", "ResImg");
-                    affich.innerHTML = '';
-
-                    if (pers == 'B') {
-                        perso = "Bob";
-                        hparagraphe.innerText = "Bob";
-                        paragraphe.innerText = "Tu aimes t'occuper de la tribu et de ton doudou. Des \"bananas\" aussi! Tu es bien mignon mais aussi bien plus démoniaque quand tu le veux!";
-                        image.setAttribute("src", "Images/bob.png");
-                    }
-                    else if (pers == 'S') {
-                        perso = "Stuart";
-                        hparagraphe.innerText = "Stuart";
-                        paragraphe.innerText = "Tu aimes beaucoup la musique, en particulier la guitare. Mais ce que tu préfères, c'est la \"banana\"! Bien sûr, si on a besoin de toi, tu pourras toujours répondre \"présent\"!";
-                        image.setAttribute("src", "Images/stuart.png");
-                    }
-                    else {
-                        perso = "Kevin";
-                        hparagraphe.innerText = "Kevin";
-                        paragraphe.innerText = "Petit intello, va! Mais aussi grand rigolo! Sans toi, la saga \"Minions\" n'existerait pas sans doute. Je me trompe? Ah j'oubliais! Tu es officiellement fan des \"bananas\".";
-                        image.setAttribute("src", "Images/kevin.png");
-                    }
-
-                    affich.appendChild(hparagraphe);
-                    affich.appendChild(image);
-                    affich.appendChild(paragraphe);
-
-                    const ID = (ps).concat('_', 'mini');
-                    const caseRes = document.getElementById(ID);
-
-                    caseRes.innerText = perso;
-                }
-                else {
-                    alert('Ce pseudo n\'est pas valide');
-                }
-            }
-
-        }
-
-        function ResMyst() {
-            if (joueurs.length == 0) {
-                alert("Veuillez vous enregistrer dans la liste de joueurs.");
-            }
-            else {
-                let ps = prompt('Veuillez entrer votre pseudo :');
-
-                let present = false;
-                for (let i = 0; i < joueurs.length; i++) {
-                    if (ps == joueurs[i].pseudo) {
-                        present = true;
-                        break;
-                    }
-                }
-
-                if (present) {
-
-                    let Res = { Ca: 0, Cl: 0, N: 0, Ch: 0 };
-                    try {
-                        var questions = [document.querySelector("input[name='myst_1']:checked").value,
-                        document.querySelector("input[name='myst_2']:checked").value,
-                        document.querySelector("input[name='myst_3']:checked").value,
-                        document.querySelector("input[name='myst_4']:checked").value]
-                    }
-                    catch (err) {
-                        alert("Toutes les réponses n'ont pas été cochées.");
-                    }
-                    for (let i = 0; i < questions.length; i++) {
-                        if (i == 3) {
-                            switch (questions[i]) {
-                                case 'carina':
-                                    Res.Ca++;
-                                    break;
-                                case 'clem':
-                                    Res.Cl++;
-                                    Res.N++;
-                                    break;
-                                default:
-                                    Res.Ch++;
+                        let max = 0
+                        let pers;
+                        for (let i in Res) {
+                            if (Res[i] > max) {
+                                max = Res[i];
+                                pers = i;
                             }
+                        }
+
+                        const hparagraphe = document.createElement('h3');
+                        const paragraphe = document.createElement('p');
+                        const image = document.createElement('img');
+                        paragraphe.setAttribute("class", "resultats");
+                        const affich = document.getElementById("pMini");
+                        image.setAttribute("width", 400);
+                        image.setAttribute("class", "ResImg");
+                        affich.innerHTML = '';
+
+                        if (pers == 'B') {
+                            perso = "Bob";
+                            hparagraphe.innerText = "Bob";
+                            paragraphe.innerText = "Tu aimes t'occuper de la tribu et de ton doudou. Des \"bananas\" aussi! Tu es bien mignon mais aussi bien plus démoniaque quand tu le veux!";
+                            image.setAttribute("src", "Images/bob.png");
+                        }
+                        else if (pers == 'S') {
+                            perso = "Stuart";
+                            hparagraphe.innerText = "Stuart";
+                            paragraphe.innerText = "Tu aimes beaucoup la musique, en particulier la guitare. Mais ce que tu préfères, c'est la \"banana\"! Bien sûr, si on a besoin de toi, tu pourras toujours répondre \"présent\"!";
+                            image.setAttribute("src", "Images/stuart.png");
                         }
                         else {
-                            switch (questions[i]) {
-                                case 'carina':
-                                    Res.Ca++;
-                                    break;
-                                case 'clem':
-                                    Res.Cl++;
-                                    break;
-                                case 'nerea':
-                                    Res.N++;
-                                    break;
-                                default:
-                                    Res.Ch++;
-                            }
+                            perso = "Kevin";
+                            hparagraphe.innerText = "Kevin";
+                            paragraphe.innerText = "Petit intello, va! Mais aussi grand rigolo! Sans toi, la saga \"Minions\" n'existerait pas sans doute. Je me trompe? Ah j'oubliais! Tu es officiellement fan des \"bananas\".";
+                            image.setAttribute("src", "Images/kevin.png");
                         }
-                    }
 
-                    let max = 0
-                    let pers;
-                    for (let i in Res) {
-                        if (Res[i] > max) {
-                            max = Res[i];
-                            pers = i;
-                        }
-                    }
+                        affich.appendChild(hparagraphe);
+                        affich.appendChild(image);
+                        affich.appendChild(paragraphe);
 
-                    const hparagraphe = document.createElement('h3');
-                    const paragraphe = document.createElement('p');
-                    const image = document.createElement('img');
-                    paragraphe.setAttribute("class", "resultats");
-                    const affich = document.getElementById("pMyst");
-                    image.setAttribute("width", 400);
-                    image.setAttribute("class", "ResImg");
-                    affich.innerHTML = '';
+                        const ID = (ps).concat('_', 'mini');
+                        const caseRes = document.getElementById(ID);
 
-                    if (pers == 'Ca') {
-                        perso = "Carina";
-                        hparagraphe.innerText = "Carina";
-                        paragraphe.innerText = "Bravo! comme elle tu as gagné, ta récompense est de savoir que tu ressemble à Carina.";
-                        image.setAttribute("src", "Images/carina.png");
-                    }
-                    else if (pers == 'Cl') {
-                        perso = "Clémence";
-                        hparagraphe.innerText = "Clémence";
-                        paragraphe.innerText = "On a qu'une seule vie après tout. Félicitation! Tu es une deuxième Clémence.";
-                        image.setAttribute("src", "Images/clem.jpg");
-                    }
-                    else if (pers == 'N') {
-                        perso = "Nerea";
-                        hparagraphe.innerText = "Nerea";
-                        paragraphe.innerText = "Excellent, tu es une deuxième Nerea. Tu peux être aussi heureux qu'elle quand elle a trouvé ses initiales.";
-                        image.setAttribute("src", "Images/nerea.jpg");
+                        caseRes.innerText = perso;
                     }
                     else {
-                        perso = "Chama";
-                        hparagraphe.innerText = "Chama";
-                        paragraphe.innerText = "Excellent, tu ressemble beaucoup à Chama";
-                        image.setAttribute("src", "Images/chama.jpg");
+                        alert('Ce pseudo n\'est pas valide');
                     }
-
-                    affich.appendChild(hparagraphe);
-                    affich.appendChild(image);
-                    affich.appendChild(paragraphe);
-
-                    const ID = (ps).concat('_', 'myst');
-                    const caseRes = document.getElementById(ID);
-
-                    caseRes.innerText = perso;
                 }
-                else {
-                    alert('Ce pseudo n\'est pas valide');
-                }
+
             }
 
-        }
-    </script>
-    <style>
-        body {
-            background-color: rgb(39, 36, 36);
-        }
+            function ResMyst() {
+                if (joueurs.length == 0) {
+                    alert("Veuillez vous enregistrer dans la liste de joueurs.");
+                }
+                else {
+                    let ps = prompt('Veuillez entrer votre pseudo :');
 
-        h1 {
-            text-align: center;
-            text-transform: uppercase;
-            color: rgba(255, 0, 0, 0.767);
-            font-family: Verdana, Geneva, Tahoma, sans-serif;
+                    let present = false;
+                    for (let i = 0; i < joueurs.length; i++) {
+                        if (ps == joueurs[i].pseudo) {
+                            present = true;
+                            break;
+                        }
+                    }
 
-        }
+                    if (present) {
 
-        h2 {
-            text-transform: uppercase;
-            color: rgba(255, 0, 0, 0.767);
-            font-family: Verdana, Geneva, Tahoma, sans-serif;
-        }
+                        let Res = { Ca: 0, Cl: 0, N: 0, Ch: 0 };
+                        try {
+                            var questions = [document.querySelector("input[name='myst_1']:checked").value,
+                            document.querySelector("input[name='myst_2']:checked").value,
+                            document.querySelector("input[name='myst_3']:checked").value,
+                            document.querySelector("input[name='myst_4']:checked").value]
+                        }
+                        catch (err) {
+                            alert("Toutes les réponses n'ont pas été cochées.");
+                        }
+                        for (let i = 0; i < questions.length; i++) {
+                            if (i == 3) {
+                                switch (questions[i]) {
+                                    case 'carina':
+                                        Res.Ca++;
+                                        break;
+                                    case 'clem':
+                                        Res.Cl++;
+                                        Res.N++;
+                                        break;
+                                    default:
+                                        Res.Ch++;
+                                }
+                            }
+                            else {
+                                switch (questions[i]) {
+                                    case 'carina':
+                                        Res.Ca++;
+                                        break;
+                                    case 'clem':
+                                        Res.Cl++;
+                                        break;
+                                    case 'nerea':
+                                        Res.N++;
+                                        break;
+                                    default:
+                                        Res.Ch++;
+                                }
+                            }
+                        }
 
-        h3 {
-            text-align: center;
-            text-transform: uppercase;
-            color: white;
-            font-family: Verdana, Geneva, Tahoma, sans-serif;
-        }
+                        let max = 0
+                        let pers;
+                        for (let i in Res) {
+                            if (Res[i] > max) {
+                                max = Res[i];
+                                pers = i;
+                            }
+                        }
 
-        .back {
-            background: url(Images/Netflix.png);
-        }
+                        const hparagraphe = document.createElement('h3');
+                        const paragraphe = document.createElement('p');
+                        const image = document.createElement('img');
+                        paragraphe.setAttribute("class", "resultats");
+                        const affich = document.getElementById("pMyst");
+                        image.setAttribute("width", 400);
+                        image.setAttribute("class", "ResImg");
+                        affich.innerHTML = '';
 
-        table,
-        td,
-        th {
-            border: 1px solid white;
-        }
+                        if (pers == 'Ca') {
+                            perso = "Carina";
+                            hparagraphe.innerText = "Carina";
+                            paragraphe.innerText = "Bravo! comme elle tu as gagné, ta récompense est de savoir que tu ressemble à Carina.";
+                            image.setAttribute("src", "Images/carina.png");
+                        }
+                        else if (pers == 'Cl') {
+                            perso = "Clémence";
+                            hparagraphe.innerText = "Clémence";
+                            paragraphe.innerText = "On a qu'une seule vie après tout. Félicitation! Tu es une deuxième Clémence.";
+                            image.setAttribute("src", "Images/clem.jpg");
+                        }
+                        else if (pers == 'N') {
+                            perso = "Nerea";
+                            hparagraphe.innerText = "Nerea";
+                            paragraphe.innerText = "Excellent, tu es une deuxième Nerea. Tu peux être aussi heureux qu'elle quand elle a trouvé ses initiales.";
+                            image.setAttribute("src", "Images/nerea.jpg");
+                        }
+                        else {
+                            perso = "Chama";
+                            hparagraphe.innerText = "Chama";
+                            paragraphe.innerText = "Excellent, tu ressemble beaucoup à Chama";
+                            image.setAttribute("src", "Images/chama.jpg");
+                        }
 
-        .Tableau {
-            margin: 10px;
-        }
+                        affich.appendChild(hparagraphe);
+                        affich.appendChild(image);
+                        affich.appendChild(paragraphe);
 
-        table {
-            background-color: rgb(22, 17, 17);
-            border-style: solid;
-            border-color: gray;
-            font-family: Verdana, Geneva, Tahoma, sans-serif;
-            opacity: 0.8;
-            width: 40%;
-            border-collapse: collapse;
-            border-radius: 4px;
-            column-width: 20%;
-            width: 50%;
-            text-align: center;
-        }
+                        const ID = (ps).concat('_', 'myst');
+                        const caseRes = document.getElementById(ID);
 
-        th {
-            color: white;
-            font-family: Verdana, Geneva, Tahoma, sans-serif;
-            text-align: center;
-            width: 20%;
-            height: 42px;
-        }
+                        caseRes.innerText = perso;
+                    }
+                    else {
+                        alert('Ce pseudo n\'est pas valide');
+                    }
+                }
 
-        td {
-            color: white;
-            font-family: Verdana, Geneva, Tahoma, sans-serif;
-            text-align: center;
-            width: 20%;
-        }
+            }
 
-        input {
-            border: solid gray;
-            border-radius: 4px;
-        }
+            function ResMyst() {
+                if (joueurs.length == 0) {
+                    alert("Veuillez vous enregistrer dans la liste de joueurs.");
+                }
+                else {
+                    let ps = prompt('Veuillez entrer votre pseudo :');
 
-        .inscript {
-            background-color: rgb(22, 17, 17);
-            color: white;
-            font-family: Verdana, Geneva, Tahoma, sans-serif;
-            opacity: 0.8;
-        }
+                    let present = false;
+                    for (let i = 0; i < joueurs.length; i++) {
+                        if (ps == joueurs[i].pseudo) {
+                            present = true;
+                            break;
+                        }
+                    }
 
-        .noms {
-            font-weight: bold;
-            color: white;
-            font-family: Verdana, Geneva, Tahoma, sans-serif;
-        }
+                    if (present) {
 
-        a {
-            color: white;
-            font-family: Verdana, Geneva, Tahoma, sans-serif;
-        }
+                        let Res = { Ca: 0, Cl: 0, N: 0, Ch: 0 };
+                        try {
+                            var questions = [document.querySelector("input[name='myst_1']:checked").value,
+                            document.querySelector("input[name='myst_2']:checked").value,
+                            document.querySelector("input[name='myst_3']:checked").value,
+                            document.querySelector("input[name='myst_4']:checked").value]
+                        }
+                        catch (err) {
+                            alert("Toutes les réponses n'ont pas été cochées.");
+                        }
+                        for (let i = 0; i < questions.length; i++) {
+                            if (i == 3) {
+                                switch (questions[i]) {
+                                    case 'carina':
+                                        Res.Ca++;
+                                        break;
+                                    case 'clem':
+                                        Res.Cl++;
+                                        Res.N++;
+                                        break;
+                                    default:
+                                        Res.Ch++;
+                                }
+                            }
+                            else {
+                                switch (questions[i]) {
+                                    case 'carina':
+                                        Res.Ca++;
+                                        break;
+                                    case 'clem':
+                                        Res.Cl++;
+                                        break;
+                                    case 'nerea':
+                                        Res.N++;
+                                        break;
+                                    default:
+                                        Res.Ch++;
+                                }
+                            }
+                        }
 
-        legend {
-            font-size: large;
-            color: white;
-            font-family: Verdana, Geneva, Tahoma, sans-serif;
-        }
+                        let max = 0
+                        let pers;
+                        for (let i in Res) {
+                            if (Res[i] > max) {
+                                max = Res[i];
+                                pers = i;
+                            }
+                        }
 
-        p {
-            color: white;
-            font-family: Verdana, Geneva, Tahoma, sans-serif;
-        }
+                        const hparagraphe = document.createElement('h3');
+                        const paragraphe = document.createElement('p');
+                        const image = document.createElement('img');
+                        paragraphe.setAttribute("class", "resultats");
+                        const affich = document.getElementById("pMyst");
+                        image.setAttribute("width", 400);
+                        image.setAttribute("class", "ResImg");
+                        affich.innerHTML = '';
 
-        .resultats {
-            text-align: center;
-            font-size: 20px;
-        }
+                        if (pers == 'Ca') {
+                            perso = "Carina";
+                            hparagraphe.innerText = "Carina";
+                            paragraphe.innerText = "Bravo! comme elle tu as gagné, ta récompense est de savoir que tu ressemble à Carina.";
+                            image.setAttribute("src", "Images/carina.png");
+                        }
+                        else if (pers == 'Cl') {
+                            perso = "Clémence";
+                            hparagraphe.innerText = "Clémence";
+                            paragraphe.innerText = "On a qu'une seule vie après tout. Félicitation! Tu es une deuxième Clémence.";
+                            image.setAttribute("src", "Images/clem.jpg");
+                        }
+                        else if (pers == 'N') {
+                            perso = "Nerea";
+                            hparagraphe.innerText = "Nerea";
+                            paragraphe.innerText = "Excellent, tu es une deuxième Nerea. Tu peux être aussi heureux qu'elle quand elle a trouvé ses initiales.";
+                            image.setAttribute("src", "Images/nerea.jpg");
+                        }
+                        else {
+                            perso = "Chama";
+                            hparagraphe.innerText = "Chama";
+                            paragraphe.innerText = "Excellent, tu ressemble beaucoup à Chama";
+                            image.setAttribute("src", "Images/chama.jpg");
+                        }
 
-        .ResImg {
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-        }
+                        affich.appendChild(hparagraphe);
+                        affich.appendChild(image);
+                        affich.appendChild(paragraphe);
 
-        .Quiz_lcdp {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-        }
+                        const ID = (ps).concat('_', 'myst');
+                        const caseRes = document.getElementById(ID);
 
-        .Quiz_st {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-        }
+                        caseRes.innerText = perso;
+                    }
+                    else {
+                        alert('Ce pseudo n\'est pas valide');
+                    }
+                }
 
-        .Quiz_minion {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-        }
+            }
 
-        .Quiz_mystere {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-        }
+            /* Fonction Surprise avec le mot de passe  */
+            function Surprise() {
+                let Surprise = document.getElementById("SurpriseInput").value;
+                if (Surprise == "CMALCODE") {
+                    let alertMessage = `Et non, y'a rien, même pas de code Netflix... Mais simplement le maître mot de cette UF`;
+                    alert(alertMessage);
+                }
+                else {
+                    alert("Perdu... Cherche Mieux! (Toutes les lettres sont en majuscules)")
+                }
+            }
+        </script>
+        <style>
+            body {
+                background-color: rgb(39, 36, 36);
+            }
 
-        button {
-            background-color: white;
-            /* Green */
-            border: none;
-            color: rgb(39, 36, 36);
-            padding: 5px 26px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 4px 2px;
-            transition-duration: 0.4s;
-            cursor: pointer;
-            border: 2px solid black;
-            border-radius: 4px;
-        }
+            h1 {
+                text-align: center;
+                text-transform: uppercase;
+                color: rgba(255, 0, 0, 0.767);
+                font-family: Verdana, Geneva, Tahoma, sans-serif;
 
-        button:hover {
-            background-color: rgb(39, 36, 36);
-            color: white;
-        }
-    </style>
-    <!--<link rel="stylesheet" type="text/css" href="Images/mep2.css">-->
-</head>
+            }
 
-<body>
-    <h1>le quiz</h1>
-    <br />
-    <a name="haut"></a>
-    <div class="back">
-        <div class="Tableau">
-            <h2>Joueurs</h2>
-            <div class="noms">
-                Prénom : <input type="text" id="prenom" onfocus="this.value=''" class="inscript" required>
-                Nom : <input type="text" id="nom" onfocus="this.value=''" class="inscript" required>
-                Pseudo : <input type="text" id="psd" onfocus="this.value=''" class="inscript" required>
-                <button onclick="Ajouter()">Participer</button>
+            h2 {
+                text-transform: uppercase;
+                color: rgba(255, 0, 0, 0.767);
+                font-family: Verdana, Geneva, Tahoma, sans-serif;
+            }
+
+            h3 {
+                text-align: center;
+                text-transform: uppercase;
+                color: white;
+                font-family: Verdana, Geneva, Tahoma, sans-serif;
+            }
+
+            .back {
+                background: url(Images/Netflix.png);
+            }
+
+            table,
+            td,
+            th {
+                border: 1px solid white;
+            }
+
+            .Tableau {
+                margin: 10px;
+            }
+
+            table {
+                background-color: rgb(22, 17, 17);
+                border-style: solid;
+                border-color: gray;
+                font-family: Verdana, Geneva, Tahoma, sans-serif;
+                opacity: 0.8;
+                width: 40%;
+                border-collapse: collapse;
+                border-radius: 4px;
+                column-width: 20%;
+                width: 50%;
+                text-align: center;
+            }
+
+            th {
+                color: white;
+                font-family: Verdana, Geneva, Tahoma, sans-serif;
+                text-align: center;
+                width: 20%;
+                height: 42px;
+            }
+
+            td {
+                color: white;
+                font-family: Verdana, Geneva, Tahoma, sans-serif;
+                text-align: center;
+                width: 20%;
+            }
+
+            input {
+                border: solid gray;
+                border-radius: 4px;
+            }
+
+            .inscript {
+                background-color: rgb(22, 17, 17);
+                color: white;
+                font-family: Verdana, Geneva, Tahoma, sans-serif;
+                opacity: 0.8;
+            }
+
+            .noms {
+                font-weight: bold;
+                color: white;
+                font-family: Verdana, Geneva, Tahoma, sans-serif;
+            }
+
+            a {
+                color: white;
+                font-family: Verdana, Geneva, Tahoma, sans-serif;
+            }
+
+            legend {
+                font-size: large;
+                color: white;
+                font-family: Verdana, Geneva, Tahoma, sans-serif;
+            }
+
+            p {
+                color: white;
+                font-family: Verdana, Geneva, Tahoma, sans-serif;
+            }
+
+            .resultats {
+                text-align: center;
+                font-size: 20px;
+            }
+
+            .ResImg {
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .Quiz_lcdp {
+                width: 100%;
+                height: 100%;
+                display: flex;
+                align-items: center;
+            }
+
+            .Quiz_st {
+                width: 100%;
+                height: 100%;
+                display: flex;
+                align-items: center;
+            }
+
+            .Quiz_minion {
+                width: 100%;
+                height: 100%;
+                display: flex;
+                align-items: center;
+            }
+
+            .Quiz_mystere {
+                width: 100%;
+                height: 100%;
+                display: flex;
+                align-items: center;
+            }
+
+            button {
+                background-color: white;
+                /* Green */
+                border: none;
+                color: rgb(39, 36, 36);
+                padding: 5px 26px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                margin: 4px 2px;
+                transition-duration: 0.4s;
+                cursor: pointer;
+                border: 2px solid black;
+                border-radius: 4px;
+            }
+
+            button:hover {
+                background-color: rgb(39, 36, 36);
+                color: white;
+            }
+        </style>
+        <!--<link rel="stylesheet" type="text/css" href="Images/mep2.css">-->
+    </head>
+
+
+    <body>
+        <h1>le quiz</h1>
+        <br />
+        <a name="haut"></a>
+        <div class="back">
+            <div class="Tableau">
+                <h2>Joueurs</h2>
+                <div class="noms">
+                    Prénom : <input type="text" id="prenom" onfocus="this.value=''" class="inscript" required>
+                    Nom : <input type="text" id="nom" onfocus="this.value=''" class="inscript" required>
+                    Pseudo : <input type="text" id="psd" onfocus="this.value=''" class="inscript" required>
+                    <button onclick="Ajouter()">Participer</button>
+                </div>
+                <br /><br />
+                <table border="1" id="tab_j">
+                    <thead>
+                        <tr>
+                            <th>Pseudo</th>
+                            <th>Quiz LCDP</th>
+                            <th>Quiz Stranger Things</th>
+                            <th>Quiz Minions</th>
+                            <th>Quiz Mystère</th>
+                        </tr>
+                    </thead>
+                </table>
+                <br /><br />
             </div>
-            <br /><br />
-            <table border="1" id="tab_j">
-                <thead>
-                    <tr>
-                        <th>Pseudo</th>
-                        <th>Quiz LCDP</th>
-                        <th>Quiz Stranger Things</th>
-                        <th>Quiz Minions</th>
-                        <th>Quiz Mystère</th>
-                    </tr>
-                </thead>
-            </table>
-            <br /><br />
         </div>
-    </div>
-    <br /><br />
-    <a href="#Quiz lcdp">Quiz LA CASA DE PAPEL</a>
-    <br>
-    <a href="#Quiz st">Quiz Stranger Things</a>
-    <br>
-    <a href="#Quiz minion">Quiz Minions</a>
-    <br>
-    <a href="#Quiz_mystere">Quiz Mystère</a>
+        <br /><br />
 
-    <!--============ Quiz LCDP ==============-->
-    <br /><br />
-    <h2>
-        <div id="Quiz lcdp" class="quiz"><img src="Images/lcdp.png" width="50">Quel personnage LA CASA DE PAPEL es-tu?
-        </div>
-    </h2>
-    <fieldset>
-        <legend>Le personnage que tu aimes le plus est : </legend>
-        <p>
-            <input type="radio" name="lcdp_1" value="helsinki">
-            <label for="r3">Helsinki, fort et engagé</label>
-        </p>
-        <p>
-            <input type="radio" name="lcdp_1" value="tokyo">
-            <label for="r2">Tokyo, intrépide et courageuse</label>
-        </p>
-        <p>
-            <input type="radio" name="lcdp_1" value="professeur">
-            <label for="r1">Le professeur, intelligent et respecté</label>
-        </p>
-        <p>
-            <input type="radio" name="lcdp_1" value="berlin">
-            <label for="r4">Berlin, sûr de lui et vantard</label>
-        </p>
-    </fieldset>
-    <br />
-    <fieldset>
-        <legend>Quel est le braquage de tes rêves? </legend>
-        <p>
-            <input type="radio" name="lcdp_2" value="professeur">
-            <label for="r1">Fait rapidement en toute discrétion, efficacement</label>
-        </p>
-        <p>
-            <input type="radio" name="lcdp_2" value="berlin">
-            <label for="r4">Grand, bruyant, spectaculaire!</label>
-        </p>
-        <p>
-            <input type="radio" name="lcdp_2" value="helsinki">
-            <label for="r3">Quoi? Un braquage, c'est pas pour moi!</label>
-        </p>
-        <p>
-            <input type="radio" name="lcdp_2" value="tokyo">
-            <label for="r2">Tant qu'il y a un maximum de morts</label>
-        </p>
-    </fieldset>
-    <br />
-    <fieldset>
-        <legend>Que ferais-tu avec l'argent? </legend>
-        <p>
-            <input type="radio" name="lcdp_3" value="professeur">
-            <label for="r1">Tu mettrais de côté</label>
-        </p>
-        <p>
-            <input type="radio" name="lcdp_3" value="tokyo">
-            <label for="r2">Tu dépenserais tout le premier jour en champagne et des voitures</label>
-        </p>
-        <p>
-            <input type="radio" name="lcdp_3" value="helsinki">
-            <label for="r3">Tu payerais tes dettes et tu ferais en sorte d'avoir un endroit convenable pour
-                vivre</label>
-        </p>
-        <p>
-            <input type="radio" name="lcdp_3" value="berlin">
-            <label for="r4">Tu te vanterais d'avoir un aussi gros pactole</label>
-        </p>
-    </fieldset>
-    <br />
-    <fieldset>
-        <legend>Le plan parfait selon toi : </legend>
-        <p>
-            <input type="radio" name="lcdp_4" value="tokyo">
-            <label for="r2">Un max d'explosifs et des armes!</label>
-        </p>
-        <p>
-            <input type="radio" name="lcdp_4" value="berlin">
-            <label for="r4">Des personnes qui font tout le travail à ta place, tu seras uniquement là pour donner
-                des ordres</label>
-        </p>
-        <p>
-            <input type="radio" name="lcdp_4" value="helsinki">
-            <label for="r3">Suivre les ordres, au moins si tu te plantes c'est pas de ta faute</label>
-        </p>
-        <p>
-            <input type="radio" name="lcdp_4" value="professeur">
-            <label for="r1">Des mois et des mois d'entraînement</label>
-        </p>
-    </fieldset>
-    <br />
-    <fieldset>
-        <legend>Le personnage que tu aimes le moins : </legend>
-        <p>
-            <input type="radio" name="lcdp_5" value="professeur">
-            <label for="r1">Tokyo, je ne la comprends jamais</label>
-        </p>
-        <p>
-            <input type="radio" name="lcdp_5" value="tokyo">
-            <label for="r2">Berlin, pour qui il se prend?</label>
-        </p>
-        <p>
-            <input type="radio" name="lcdp_5" value="helsinki">
-            <label for="r3">Le professeur, trop bizarre</label>
-        </p>
-        <p>
-            <input type="radio" name="lcdp_5" value="berlin">
-            <label for="r4">Helsinki, il faut qu'il se calme!</label>
-        </p>
-    </fieldset>
-    <br />
-    <fieldset>
-        <legend>Face au problème, tu...</legend>
-        <p>
-            <input type="radio" name="lcdp_6" value="professeur">
-            <label for="r1">Arrives toujours à trouver une solution</label>
-        </p>
-        <p>
-            <input type="radio" name="lcdp_6" value="tokyo">
-            <label for="r2">Perds le contrôle et fais n'importe quoi</label>
-        </p>
-        <p>
-            <input type="radio" name="lcdp_6" value="helsinki">
-            <label for="r3">Demandes de l'aide au professeur</label>
-        </p>
-        <p>
-            <input type="radio" name="lcdp_6" value="berlin">
-            <label for="r4">Tues tout le monde sans pitier</label>
-        </p>
-    </fieldset>
-    <br />
-    <fieldset>
-        <legend>Si il y a un problème, à qui fais-tu confiance? </legend>
-        <p>
-            <input type="radio" name="lcdp_7" value="tokyo">
-            <label for="r2">A ton instinct</label>
-        </p>
-        <p>
-            <input type="radio" name="lcdp_7" value="professeur">
-            <label for="r1">Au plan de base</label>
-        </p>
-        <p>
-            <input type="radio" name="lcdp_7" value="berlin">
-            <label for="r4">Il n'y aura pas de problème c'est sûr</label>
-        </p>
-        <p>
-            <input type="radio" name="lcdp_7" value="helsinki">
-            <label for="r3">Au professeur c'est le plus intelligent</label>
-        </p>
-    </fieldset>
-    <br />
-    <button onclick="ResLCDP()">Voir le résultat</button>
-    <br /><br />
-    <div id="pLcdp" class="dLcdp"></div>
-    <a href="#haut">Revenir aux résultats</a>
+        <!--Lien vers les différents Quiz-->
+        <a href="#Quiz lcdp">Quiz LA CASA DE PAPEL</a>
+        <br>
+        <a href="#Quiz st">Quiz Stranger Things</a>
+        <br>
+        <a href="#Quiz minion">Quiz Minions</a>
+        <br>
+        <a href="#Quiz_mystere">Quiz Mystère</a>
 
 
+        <!--============ Quiz La Casa De Papel ==============-->
+        <br /><br />
+        <h2>
+            <div id="Quiz lcdp"><img src="Images/lcdp.png" width="50">Quel personnage LA CASA DE PAPEL es-tu?</div>
+        </h2>
+        <fieldset>
+            <legend>Le personnage que tu aimes le plus est : </legend>
+            <p>
+                <input type="radio" name="lcdp_1" value="helsinki">
+                <label for="r3">Helsinki, fort et engagé</label>
+            </p>
+            <p>
+                <input type="radio" name="lcdp_1" value="tokyo">
+                <label for="r2">Tokyo, intrépide et courageuse</label>
+            </p>
+            <p>
+                <input type="radio" name="lcdp_1" value="professeur">
+                <label for="r1">Le professeur, intelligent et respecté</label>
+            </p>
+            <p>
+                <input type="radio" name="lcdp_1" value="berlin">
+                <label for="r4">Berlin, sûr dE lui et vantard</label>
+            </p>
+        </fieldset>
+        <br />
+        <fieldset>
+            <legend>Quel est le braquage de tes rêves? </legend>
+            <p>
+                <input type="radio" name="lcdp_2" value="professeur">
+                <label for="r1">Fait rapidement en toute discrétion, efficacement</label>
+            </p>
+            <p>
+                <input type="radio" name="lcdp_2" value="berlin">
+                <label for="r4">Grand, bruyant, spectaculaire!</label>
+            </p>
+            <p>
+                <input type="radio" name="lcdp_2" value="helsinki">
+                <label for="r3">Quoi? Un braquage, c'est pas pour moi!</label>
+            </p>
+            <p>
+                <input type="radio" name="lcdp_2" value="tokyo">
+                <label for="r2">Tant qu'il y a un maximum de morts</label>
+            </p>
+        </fieldset>
+        <br />
+        <fieldset>
+            <legend>Que ferais-tu avec l'argent? </legend>
+            <p>
+                <input type="radio" name="lcdp_3" value="professeur">
+                <label for="r1">Tu mettrais de côté</label>
+            </p>
+            <p>
+                <input type="radio" name="lcdp_3" value="tokyo">
+                <label for="r2">Tu dépenserAis tout le premier jour en champagne et des voitures</label>
+            </p>
+            <p>
+                <input type="radio" name="lcdp_3" value="helsinki">
+                <label for="r3">Tu payerais tes dettes et tu ferais en sorte d'avoir un endroit convenable pour
+                    vivre</label>
+            </p>
+            <p>
+                <input type="radio" name="lcdp_3" value="berlin">
+                <label for="r4">Tu te vanterais d'avoir un aussi gros pactoLe</label>
+            </p>
+        </fieldset>
+        <br />
+        <fieldset>
+            <legend>Le plan parfait selon toi : </legend>
+            <p>
+                <input type="radio" name="lcdp_4" value="tokyo">
+                <label for="r2">Un max d'explosifs et des armes!</label>
+            </p>
+            <p>
+                <input type="radio" name="lcdp_4" value="berlin">
+                <label for="r4">Des personnes qui font tout le travail à ta place, tu seras uniquement là pour donner
+                    des ordres</label>
+            </p>
+            <p>
+                <input type="radio" name="lcdp_4" value="helsinki">
+                <label for="r3">Suivre les ordres, au moins si tu te plantes c'est pas de ta faute</label>
+            </p>
+            <p>
+                <input type="radio" name="lcdp_4" value="professeur">
+                <label for="r1">Des mois et des mois d'entraînement</label>
+            </p>
+        </fieldset>
+        <br />
+        <fieldset>
+            <legend>Le persOnnage que tu aimes le moins : </legend>
+            <p>
+                <input type="radio" name="lcdp_5" value="professeur">
+                <label for="r1">Tokyo, je ne la comprends jamais</label>
+            </p>
+            <p>
+                <input type="radio" name="lcdp_5" value="tokyo">
+                <label for="r2">Berlin, pour qui il se prenD?</label>
+            </p>
+            <p>
+                <input type="radio" name="lcdp_5" value="helsinki">
+                <label for="r3">Le professeur, trop bizarre</label>
+            </p>
+            <p>
+                <input type="radio" name="lcdp_5" value="berlin">
+                <label for="r4">Helsinki, il faut qu'il se calme!</label>
+            </p>
+        </fieldset>
+        <br />
+        <fieldset>
+            <legend>FaCe au problème, tu...</legend>
+            <p>
+                <input type="radio" name="lcdp_6" value="professeur">
+                <label for="r1">Arrives toujours à trouver une solution</label>
+            </p>
+            <p>
+                <input type="radio" name="lcdp_6" value="tokyo">
+                <label for="r2">Perds le contrôle et fais n'importe quoi</label>
+            </p>
+            <p>
+                <input type="radio" name="lcdp_6" value="helsinki">
+                <label for="r3">Demandes de l'aide au professeur</label>
+            </p>
+            <p>
+                <input type="radio" name="lcdp_6" value="berlin">
+                <label for="r4">Tues tout le monde sans pitier</label>
+            </p>
+        </fieldset>
+        <br />
+        <fieldset>
+            <legend>Si il y a un problème, à qui fais-tu confiance? </legend>
+            <p>
+                <input type="radio" name="lcdp_7" value="tokyo">
+                <label for="r2">A ton instinct</label>
+            </p>
+            <p>
+                <input type="radio" name="lcdp_7" value="professeur">
+                <label for="r1">Au plan de base</label>
+            </p>
+            <p>
+                <input type="radio" name="lcdp_7" value="berlin">
+                <label for="r4">Il n'y aura pas de problèMe c'est sûr</label>
+            </p>
+            <p>
+                <input type="radio" name="lcdp_7" value="helsinki">
+                <label for="r3">Au professeur c'est le plus intelligent</label>
+            </p>
+        </fieldset>
+        <br />
+        <button onclick="ResLCDP()">Voir le résultat</button>
+        <br /><br />
+        <div id="pLcdp" class="dLcdp"></div>
+        <a href="#haut">Revenir aux résultats</a>
 
-    <h2>
-        <div id="Quiz st"><img src="Images/icons8-stranger-things-480.png" width="50">Quel personnage de Stranger Things
-            es-tu?</div>
-    </h2>
-    <fieldset>
-        <legend>De quelle couleur sont tes cheveux? </legend>
-        <p>
-            <input type="radio" name="st_1" value="eleven">
-            <label for="r1">Bruns/châtains</label>
-        </p>
-        <p>
-            <input type="radio" name="st_1" value="steve">
-            <label for="r2">Noirs</label>
-        </p>
-        <p>
-            <input type="radio" name="st_1" value="hopper">
-            <label for="r3">Je n'ai pas de cheveux</label>
-        </p>
-        <p>
-            <input type="radio" name="st_1" value="dustin">
-            <label for="r4">Autre</label>
-        </p>
-    </fieldset>
-    <br />
-    <fieldset>
-        <legend>Tu es une fille ou un garçon? </legend>
-        <p>
-            <input type="radio" name="st_2" value="eleven">
-            <label for="r1">Fille</label>
-        </p>
-        <p>
-            <input type="radio" name="st_2" value="steve">
-            <label for="r2">Garçon</label>
-        </p>
-    </fieldset>
-    <br />
-    <fieldset>
-        <legend>Quelle est ta plus grande qualité? </legend>
-        <p>
-            <input type="radio" name="st_3" value="eleven">
-            <label for="r1">Fort(e)</label>
-        </p>
-        <p>
-            <input type="radio" name="st_3" value="steve">
-            <label for="r2">Confiant(e)</label>
-        </p>
-        <p>
-            <input type="radio" name="st_3" value="dustin">
-            <label for="r3">Drôle</label>
-        </p>
-        <p>
-            <input type="radio" name="st_3" value="hopper">
-            <label for="r4">Prudent(e)</label>
-        </p>
-    </fieldset>
-    <br />
-    <fieldset>
-        <legend>De quoi as-tu le plus peur? </legend>
-        <p>
-            <input type="radio" name="st_4" value="steve">
-            <label for="r1">De mourir</label>
-        </p>
-        <p>
-            <input type="radio" name="st_4" value="dustin">
-            <label for="r2">De créatures</label>
-        </p>
-        <p>
-            <input type="radio" name="st_4" value="hopper">
-            <label for="r3">De la mort de ma famille</label>
-        </p>
-        <p>
-            <input type="radio" name="st_4" value="eleven">
-            <label for="r4">Je n'ai peur de rien!</label>
-        </p>
-    </fieldset>
-    <br />
-    <fieldset>
-        <legend>Quel est ton plus grand défaut? </legend>
-        <p>
-            <input type="radio" name="st_5" value="steve">
-            <label for="r1">Je coupe souvent la parole</label>
-        </p>
-        <p>
-            <input type="radio" name="st_5" value="hopper">
-            <label for="r2">J'use de ma force</label>
-        </p>
-        <p>
-            <input type="radio" name="st_5" value="eleven">
-            <label for="r3">J'ai tendance à voler des choses</label>
-        </p>
-        <p>
-            <input type="radio" name="st_5" value="dustin">
-            <label for="r4">J'ai peur de beaucoup de choses</label>
-        </p>
-    </fieldset>
-    <br />
-    <fieldset>
-        <legend>Quel âge as-tu? </legend>
-        <p>
-            <input type="radio" name="st_6" value="hopper">
-            <label for="r1">Moins de 18 ans</label>
-        </p>
-        <p>
-            <input type="radio" name="st_6" value="dustin">
-            <label for="r2">Plus de 18 ans</label>
-        </p>
-    </fieldset>
-    <br />
-    <fieldset>
-        <legend>Que mangerais-tu pour le déjeuner? </legend>
-        <p>
-            <input type="radio" name="st_7" value="eleven">
-            <label for="r1">Gaufre</label>
-        </p>
-        <p>
-            <input type="radio" name="st_7" value="steve">
-            <label for="r2">Autre chose</label>
-        </p>
-    </fieldset>
-    <br />
-    <fieldset>
-        <legend>Par quelle lettre commence ton prénom? </legend>
-        <p>
-            <input type="radio" name="st_8" value="eleven">
-            <label for="r1">A, B, C, D, E, F</label>
-        </p>
-        <p>
-            <input type="radio" name="st_8" value="hopper">
-            <label for="r2">F, H, I, J, K, L, M</label>
-        </p>
-        <p>
-            <input type="radio" name="st_8" value="steve">
-            <label for="r3">N, O, P, Q, R, S, T</label>
-        </p>
-        <p>
-            <input type="radio" name="st_8" value="dustin">
-            <label for="r4">U, V, W, X, Y, Z</label>
-        </p>
-    </fieldset>
-    <br />
-    <button onclick="ResST()">Voir le résultat</button>
-    <br /><br />
-    <div id="pSt"></div>
-    <a href="#haut">Revenir aux résultats</a>
+
+        <!--============ Quiz Stranger Things ==============-->
+        <h2>
+            <div id="Quiz st"><img src="Images/icons8-stranger-things-480.png" width="50">Quel personnage de Stranger
+                Things
+                es-tu?</div>
+        </h2>
+        <fieldset>
+            <legend>De quelle couleur sont tes cheveux? </legend>
+            <p>
+                <input type="radio" name="st_1" value="eleven">
+                <label for="r1">Bruns/châtains</label>
+            </p>
+            <p>
+                <input type="radio" name="st_1" value="steve">
+                <label for="r2">Noirs</label>
+            </p>
+            <p>
+                <input type="radio" name="st_1" value="hopper">
+                <label for="r3">Je n'ai pas de cheveux</label>
+            </p>
+            <p>
+                <input type="radio" name="st_1" value="dustin">
+                <label for="r4">Autre</label>
+            </p>
+        </fieldset>
+        <br />
+        <fieldset>
+            <legend>Tu es une fille ou un garçon? </legend>
+            <p>
+                <input type="radio" name="st_2" value="eleven">
+                <label for="r1">Fille</label>
+            </p>
+            <p>
+                <input type="radio" name="st_2" value="steve">
+                <label for="r2">Garçon</label>
+            </p>
+        </fieldset>
+        <br />
+        <fieldset>
+            <legend>Quelle est ta plus grande qualité? </legend>
+            <p>
+                <input type="radio" name="st_3" value="eleven">
+                <label for="r1">Fort(e)</label>
+            </p>
+            <p>
+                <input type="radio" name="st_3" value="steve">
+                <label for="r2">Confiant(e)</label>
+            </p>
+            <p>
+                <input type="radio" name="st_3" value="dustin">
+                <label for="r3">Drôle</label>
+            </p>
+            <p>
+                <input type="radio" name="st_3" value="hopper">
+                <label for="r4">Prudent(e)</label>
+            </p>
+        </fieldset>
+        <br />
+        <fieldset>
+            <legend>De quoi as-tu le plus peur? </legend>
+            <p>
+                <input type="radio" name="st_4" value="steve">
+                <label for="r1">De mourir</label>
+            </p>
+            <p>
+                <input type="radio" name="st_4" value="dustin">
+                <label for="r2">De créatures</label>
+            </p>
+            <p>
+                <input type="radio" name="st_4" value="hopper">
+                <label for="r3">De la mort de ma famille</label>
+            </p>
+            <p>
+                <input type="radio" name="st_4" value="eleven">
+                <label for="r4">Je n'ai peur de rien!</label>
+            </p>
+        </fieldset>
+        <br />
+        <fieldset>
+            <legend>Quel est ton plus grand défaut? </legend>
+            <p>
+                <input type="radio" name="st_5" value="steve">
+                <label for="r1">Je Coupe souvent la parole</label>
+            </p>
+            <p>
+                <input type="radio" name="st_5" value="hopper">
+                <label for="r2">J'use de ma force</label>
+            </p>
+            <p>
+                <input type="radio" name="st_5" value="eleven">
+                <label for="r3">J'ai tendance à voler des choses</label>
+            </p>
+            <p>
+                <input type="radio" name="st_5" value="dustin">
+                <label for="r4">J'ai peur de beaucoup de choses</label>
+            </p>
+        </fieldset>
+        <br />
+        <fieldset>
+            <legend>Quel âge as-tu? </legend>
+            <p>
+                <input type="radio" name="st_6" value="hopper">
+                <label for="r1">Moins de 18 ans</label>
+            </p>
+            <p>
+                <input type="radio" name="st_6" value="dustin">
+                <label for="r2">Plus de 18 ans</label>
+            </p>
+        </fieldset>
+        <br />
+        <fieldset>
+            <legend>Que mangerais-tu pour le déjeuner? </legend>
+            <p>
+                <input type="radio" name="st_7" value="eleven">
+                <label for="r1">Gaufre</label>
+            </p>
+            <p>
+                <input type="radio" name="st_7" value="steve">
+                <label for="r2">Autre chose</label>
+            </p>
+        </fieldset>
+        <br />
+        <fieldset>
+            <legend>Par quelle lettre commence ton prénom? </legend>
+            <p>
+                <input type="radio" name="st_8" value="eleven">
+                <label for="r1">A, B, C, D, E, F</label>
+            </p>
+            <p>
+                <input type="radio" name="st_8" value="hopper">
+                <label for="r2">F, H, I, J, K, L, M</label>
+            </p>
+            <p>
+                <input type="radio" name="st_8" value="steve">
+                <label for="r3">N, O, P, Q, R, S, T</label>
+            </p>
+            <p>
+                <input type="radio" name="st_8" value="dustin">
+                <label for="r4">U, V, W, X, Y, Z</label>
+            </p>
+        </fieldset>
+        <br />
+        <button onclick="ResST()">Voir le résultat</button>
+        <br /><br />
+        <div id="pSt"></div>
+        <a href="#haut">Revenir aux résultats</a>
 
 
+        <!--============ Quiz Minion ==============-->
+        <h2>
+            <div id="Quiz minion"><img src="Images/mini.png" width="100">Quel Minion es-tu?</div>
+        </h2>
+        <fieldset>
+            <legend>Quelle est ta morphologie? </legend>
+            <p>
+                <input type="radio" name="min_1" value="bob">
+                <label for="r1">Petit</label>
+            </p>
+            <p>
+                <input type="radio" name="min_1" value="kevin">
+                <label for="r2">Maigre</label>
+            </p>
+            <p>
+                <input type="radio" name="min_1" value="stuart">
+                <label for="r3">Déformé</label>
+            </p>
+        </fieldset>
+        <br />
+        <fieldset>
+            <legend>Que préfères-tu? </legend>
+            <p>
+                <input type="radio" name="min_2" value="bob">
+                <label for="r1">Être le roi(reine) d'Angleterre </label>
+            </p>
+            <p>
+                <input type="radio" name="min_2" value="stuart">
+                <label for="r2">Être guitariste professionnel </label>
+            </p>
+            <p>
+                <input type="radio" name="min_2" value="kevin">
+                <label for="r3">Avoir un Q.I de 200 </label>
+            </p>
+            <p>
+                <input type="radio" name="min_2" value="stuart">
+                <label for="r3">Être très beau(belle) </label>
+            </p>
+        </fieldset>
+        <br />
+        <fieldset>
+            <legend>Comme arme tu, voudrais... </legend>
+            <p>
+                <input type="radio" name="min_3" value="bob">
+                <label for="r1">Des bras et des jambes élastiques </label>
+            </p>
+            <p>
+                <input type="radio" name="min_3" value="stuart">
+                <label for="r2">Un lance lave </label>
+            </p>
+            <p>
+                <input type="radio" name="min_3" value="kevin">
+                <label for="r3">Un hypnotiseur </label>
+            </p>
+            <p>
+                <input type="radio" name="min_3" value="kevin">
+                <label for="r3">La paix </label>
+            </p>
+        </fieldset>
+        <br />
+        <fieldset>
+            <legend>Quel serait le cadeau qui te conviendrait le mieux? </legend>
+            <p>
+                <input type="radio" name="min_4" value="stuart">
+                <label for="r1">Une superbe guitare de la mort </label>
+            </p>
+            <p>
+                <input type="radio" name="min_4" value="bob">
+                <label for="r2">Un giga-méga-gros doudou </label>
+            </p>
+            <p>
+                <input type="radio" name="min_4" value="kevin">
+                <label for="r3">Être nommé chevalier </label>
+            </p>
+        </fieldset>
+        <br />
+        <fieldset>
+            <legend>Quelle situation détestes-tu le plus? </legend>
+            <p>
+                <input type="radio" name="min_5" value="bob">
+                <label for="r1">Être coincé dans le coffre d'une voiture</label>
+            </p>
+            <p>
+                <input type="radio" name="min_5" value="kevin">
+                <label for="r2">Avaler un rubis </label>
+            </p>
+            <p>
+                <input type="radio" name="min_5" value="stuart">
+                <label for="r3">Être humilier en public </label>
+            </p>
+        </fieldset>
+        <br />
+        <fieldset>
+            <legend>Qu'est-ce que c'est? </legend>
+            <img src="Images/doudou.jpg" width="400">
+            <p>
+                <input type="radio" name="min_6" value="bob">
+                <label for="r1">Un doudou !</label>
+            </p>
+            <p>
+                <input type="radio" name="min_6" value="kevin">
+                <label for="r2">Une vieillerie </label>
+            </p>
+            <p>
+                <input type="radio" name="min_6" value="stuart">
+                <label for="r3">Aucune idée. Ça sent mauvais </label>
+            </p>
+        </fieldset>
+        <br />
+        <button onclick="ResMini()">Voir le résultat</button>
+        <br /><br />
+        <div id="pMini"></div>
+        <br /><br />
 
-    <h2>
-        <div id="Quiz minion"><img src="Images/mini.png" width="100">Quel Minion es-tu?</div>
-    </h2>
-    <fieldset>
-        <legend>Quelle est ta morphologie? </legend>
-        <p>
-            <input type="radio" name="min_1" value="bob">
-            <label for="r1">Petit</label>
-        </p>
-        <p>
-            <input type="radio" name="min_1" value="kevin">
-            <label for="r2">Maigre</label>
-        </p>
-        <p>
-            <input type="radio" name="min_1" value="stuart">
-            <label for="r3">Déformé</label>
-        </p>
-    </fieldset>
-    <br />
-    <fieldset>
-        <legend>Que préfères-tu? </legend>
-        <p>
-            <input type="radio" name="min_2" value="bob">
-            <label for="r1">Être le roi(reine) d'Angleterre </label>
-        </p>
-        <p>
-            <input type="radio" name="min_2" value="stuart">
-            <label for="r2">Être guitariste professionnel </label>
-        </p>
-        <p>
-            <input type="radio" name="min_2" value="kevin">
-            <label for="r3">Avoir un Q.I de 200 </label>
-        </p>
-        <p>
-            <input type="radio" name="min_2" value="stuart">
-            <label for="r3">Être très beau(belle) </label>
-        </p>
-    </fieldset>
-    <br />
-    <fieldset>
-        <legend>Comme arme tu, voudrais... </legend>
-        <p>
-            <input type="radio" name="min_3" value="bob">
-            <label for="r1">Des bras et des jambes élastiques </label>
-        </p>
-        <p>
-            <input type="radio" name="min_3" value="stuart">
-            <label for="r2">Un lance lave </label>
-        </p>
-        <p>
-            <input type="radio" name="min_3" value="kevin">
-            <label for="r3">Un hypnotiseur </label>
-        </p>
-        <p>
-            <input type="radio" name="min_3" value="kevin">
-            <label for="r3">La paix </label>
-        </p>
-    </fieldset>
-    <br />
-    <fieldset>
-        <legend>Quel serait le cadeau qui te conviendrait le mieux? </legend>
-        <p>
-            <input type="radio" name="min_4" value="stuart">
-            <label for="r1">Une superbe guitare de la mort </label>
-        </p>
-        <p>
-            <input type="radio" name="min_4" value="bob">
-            <label for="r2">Un giga-méga-gros doudou </label>
-        </p>
-        <p>
-            <input type="radio" name="min_4" value="kevin">
-            <label for="r3">Être nommé chevalier </label>
-        </p>
-    </fieldset>
-    <br />
-    <fieldset>
-        <legend>Quelle situation détestes-tu le plus? </legend>
-        <p>
-            <input type="radio" name="min_5" value="bob">
-            <label for="r1">Être coincé dans le coffre d'une voiture</label>
-        </p>
-        <p>
-            <input type="radio" name="min_5" value="kevin">
-            <label for="r2">Avaler un rubis </label>
-        </p>
-        <p>
-            <input type="radio" name="min_5" value="stuart">
-            <label for="r3">Être humilier en public </label>
-        </p>
-    </fieldset>
-    <br />
-    <fieldset>
-        <legend>Qu'est-ce que c'est? </legend>
-        <img src="Images/doudou.jpg" width="400">
-        <p>
-            <input type="radio" name="min_6" value="bob">
-            <label for="r1">Un doudou !</label>
-        </p>
-        <p>
-            <input type="radio" name="min_6" value="kevin">
-            <label for="r2">Une vieillerie </label>
-        </p>
-        <p>
-            <input type="radio" name="min_6" value="stuart">
-            <label for="r3">Aucune idée. Ça sent mauvais </label>
-        </p>
-    </fieldset>
-    <br />
-    <button onclick="ResMini()">Voir le résultat</button>
-    <br /><br />
-    <div id="pMini"></div>
-    <a href="#haut">Revenir aux résultats</a>
+        <h2>
+            <div id="Quiz_mystere"><img src="Images/unknown.png" width="100">Quiz mysterieux...</div>
+        </h2>
+        <fieldset>
+            <legend>Devant tes problèmes tu es: </legend>
+            <p>
+                <input type="radio" name="myst_1" value="carina">
+                <label for="r1">Au bout du rolls</label>
+            </p>
+            <p>
+                <input type="radio" name="myst_1" value="clem">
+                <label for="r2">En Y</label>
+            </p>
+            <p>
+                <input type="radio" name="myst_1" value="nerea">
+                <label for="r3">En Erasmus pour fuir</label>
+            </p>
+            <p>
+                <input type="radio" name="myst_1" value="chama">
+                <label for="r3">Sans pression</label>
+            </p>
+        </fieldset>
+        <br />
+        <fieldset>
+            <legend>Ton expression préférée : </legend>
+            <p>
+                <input type="radio" name="myst_2" value="carina">
+                <label for="r1">"Quelle vie"</label>
+            </p>
+            <p>
+                <input type="radio" name="myst_2" value="clem">
+                <label for="r2">"Trop miiiim's"</label>
+            </p>
+            <p>
+                <input type="radio" name="myst_2" value="nerea">
+                <label for="r3">"Ma caméra marche pas"</label>
+            </p>
+            <p>
+                <input type="radio" name="myst_2" value="chama">
+                <label for="r3">"https://insa-toulouse.fr.zoom.us/j/520323519"</label>
+            </p>
+        </fieldset>
+        <br />
+        <fieldset>
+            <legend>Ton plat préféré : </legend>
+            <p>
+                <input type="radio" name="myst_3" value="carina">
+                <label for="r1">Une extravagante pizza à l'ananas</label>
+            </p>
+            <p>
+                <input type="radio" name="myst_3" value="clem">
+                <label for="r2">Un bon Pittaya tropical</label>
+            </p>
+            <p>
+                <input type="radio" name="myst_3" value="nerea">
+                <label for="r3">La classique raclette pour bien manger</label>
+            </p>
+            <p>
+                <input type="radio" name="myst_3" value="chama">
+                <label for="r3">Des bonnes frites croquantes</label>
+            </p>
+        </fieldset>
+        <br />
+        <fieldset>
+            <legend>Tu es plutôt team : </legend>
+            <p>
+                <input type="radio" name="myst_4" value="carina">
+                <label for="r1">Petit village comme Moissac</label>
+            </p>
+            <p>
+                <input type="radio" name="myst_4" value="clem">
+                <label for="r2">Certainement la plus belle ville du monde : Toulouse</label>
+            </p>
+            <p>
+                <input type="radio" name="myst_4" value="chama">
+                <label for="r3">Dans la ville où il y a plus de voitures que d'êtres humains : Casablanca</label>
+            </p>
+        </fieldset>
+        <br />
+        <button onclick="ResMyst()">Voir le résultat</button>
+        <br /><br />
+        <div id="pMyst"></div>
+        <a href="#haut">Revenir aux résultats</a>
 
-    <h2>
-        <div id="Quiz_mystere"><img src="Images/unknown.png" width="100">Quiz mysterieux...</div>
-    </h2>
-    <fieldset>
-        <legend>Devant tes problèmes tu es: </legend>
-        <p>
-            <input type="radio" name="myst_1" value="carina">
-            <label for="r1">Au bout du rolls</label>
-        </p>
-        <p>
-            <input type="radio" name="myst_1" value="clem">
-            <label for="r2">En Y</label>
-        </p>
-        <p>
-            <input type="radio" name="myst_1" value="nerea">
-            <label for="r3">En Erasmus pour fuir</label>
-        </p>
-        <p>
-            <input type="radio" name="myst_1" value="chama">
-            <label for="r3">Sans pression</label>
-        </p>
-    </fieldset>
-    <br />
-    <fieldset>
-        <legend>Ton expression préférée : </legend>
-        <p>
-            <input type="radio" name="myst_2" value="carina">
-            <label for="r1">"Quelle vie"</label>
-        </p>
-        <p>
-            <input type="radio" name="myst_2" value="clem">
-            <label for="r2">"Trop miiiim's"</label>
-        </p>
-        <p>
-            <input type="radio" name="myst_2" value="nerea">
-            <label for="r3">"Ma caméra marche pas"</label>
-        </p>
-        <p>
-            <input type="radio" name="myst_2" value="chama">
-            <label for="r3">"https://insa-toulouse.fr.zoom.us/j/520323519"</label>
-        </p>
-    </fieldset>
-    <br />
-    <fieldset>
-        <legend>Ton plat préféré : </legend>
-        <p>
-            <input type="radio" name="myst_3" value="carina">
-            <label for="r1">Une extravagante pizza à l'ananas</label>
-        </p>
-        <p>
-            <input type="radio" name="myst_3" value="clem">
-            <label for="r2">Un bon Pittaya tropical</label>
-        </p>
-        <p>
-            <input type="radio" name="myst_3" value="nerea">
-            <label for="r3">La classique raclette pour bien manger</label>
-        </p>
-        <p>
-            <input type="radio" name="myst_3" value="chama">
-            <label for="r3">Des bonnes frites croquantes</label>
-        </p>
-    </fieldset>
-    <br />
-    <fieldset>
-        <legend>Tu es plutôt team : </legend>
-        <p>
-            <input type="radio" name="myst_4" value="carina">
-            <label for="r1">Petit village comme Moissac</label>
-        </p>
-        <p>
-            <input type="radio" name="myst_4" value="clem">
-            <label for="r2">Certainement la plus belle ville du monde : Toulouse</label>
-        </p>
-        <p>
-            <input type="radio" name="myst_4" value="chama">
-            <label for="r3">Dans la ville où il y a plus de voitures que d'êtres humains : Casablanca</label>
-        </p>
-    </fieldset>
-    <br />
-    <button onclick="ResMyst()">Voir le résultat</button>
-    <br /><br />
-    <div id="pMyst"></div>
-    <a href="#haut">Revenir aux résultats</a>
-    <!--============ Surpriiiiise ==============-->
+        <!--============ Surpriiiiise ==============-->
+        <h2>BONUS</h2>
+        <p style="color: antiquewhite" ;>Si tu as eu l'oeil aussi bien aiguisé que Lucifer dans la saison 3, tu as du
+            remarquer des petites annomalies dans dans la typographie de ce site... </p>
+        <p style="color: antiquewhite" ;>A toi de jouer et d'essayer de perser le mystère de cette page...</p>
+        <p style="color: antiquewhite" ;>(Regarder le code c'est tricher, on te voit...)</p>
+        <br /><br />
+        <p style="color: antiquewhite">Mot de Passe (cliquer en dehors de la case pour valider) :</p> <input color=white
+            type="text" id="SurpriseInput" onBlur="Surprise(this.value)" />
+        <br /><br />
+        <br /><br />
+        <a href="#haut">Revenir aux résultats</a>
+    </body>
 
-    <br /><br />
-    <br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-</body>
-
-</html>
+    </html>
